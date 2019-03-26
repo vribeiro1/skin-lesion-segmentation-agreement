@@ -1,0 +1,11 @@
+.idea
+.DS_Store
+.cvpr-env
+.ipynb_checkpoints
+*.ipynb
+
+workshop_files/*
+!workshop_files/.gitkeep
+
+data/*
+!data/.gitkeep

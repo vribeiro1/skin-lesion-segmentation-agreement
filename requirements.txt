@@ -1,0 +1,14 @@
+funcy
+jupyterlab
+numpy
+scipy
+matplotlib
+scikit-image
+scikit-learn
+scipy
+seaborn
+pandas
+Pillow
+ujson
+torch
+torchvision
