@@ -12,3 +12,4 @@ Pillow
 ujson
 torch
 torchvision
+tqdm
