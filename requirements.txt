@@ -1,4 +1,5 @@
 funcy
+gevent
 jupyterlab
 numpy
 scipy
