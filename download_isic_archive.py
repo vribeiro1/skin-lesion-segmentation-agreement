@@ -1,6 +1,6 @@
 import gevent.monkey
 
-gevent.monkey.patch_socket()
+gevent.monkey.patch_all()
 
 import os
 import ujson
@@ -13,8 +13,8 @@ from urllib.request import urlopen, Request
 BASE_URL = "https://isic-archive.com/api/v1"
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-ISIC_ARCHIVE_INPUTS_PATH = os.path.join(BASE_PATH, "data", "isic_archive", "inputs")
-ISIC_ARCHIVE_TARGETS_PATH = os.path.join(BASE_PATH, "data", "isic_archive", "targets")
+ISIC_ARCHIVE_INPUTS_PATH = os.path.join(BASE_PATH, "data", "isic_archive2", "inputs")
+ISIC_ARCHIVE_TARGETS_PATH = os.path.join(BASE_PATH, "data", "isic_archive2", "targets")
 
 if not os.path.exists(ISIC_ARCHIVE_INPUTS_PATH):
     os.makedirs(ISIC_ARCHIVE_INPUTS_PATH)
@@ -34,6 +34,22 @@ def get_image_ids(limit, offset):
     return content
 
 
+def get_all_image_ids():
+    batch_size = 1000
+    offset = 0
+
+    image_ids = []
+    while True:
+        batch_image_ids = get_image_ids(batch_size, offset)
+        image_ids.extend(batch_image_ids)
+        offset += batch_size
+
+        if len(batch_image_ids) < 1000:
+            break
+
+    return image_ids
+
+
 def get_segmentation_ids_for_image(image_id):
     endpoint = "segmentation"
     url = f"{BASE_URL}/{endpoint}?imageId={image_id}"
@@ -50,7 +66,11 @@ def download_image(image_id, save_to=None):
     url = f"{BASE_URL}/{endpoint}"
 
     request = Request(url)
-    response = urlopen(request)
+    try:
+        response = urlopen(request)
+    except Exception as e:
+        print(f"{e.__class__.__name__} raised while downloading image from {url}")
+        return
     img_bytes = BytesIO(response.read())
     img = Image.open(img_bytes)
 
@@ -65,7 +85,11 @@ def download_mask(image_id, save_to=None):
     url = f"{BASE_URL}/{endpoint}"
 
     request = Request(url)
-    response = urlopen(request)
+    try:
+        response = urlopen(request)
+    except Exception as e:
+        print(f"{e.__class__.__name__} raised while downloading image mask from {url}")
+        return
     img_bytes = BytesIO(response.read())
     img = Image.open(img_bytes)
 
@@ -82,7 +106,7 @@ def download_all(image_id, image_name, progress_bar=None):
 
     segmentations = get_segmentation_ids_for_image(image_id)
     for i, segmentation in enumerate(segmentations):
-        fpath = os.path.join(ISIC_ARCHIVE_INPUTS_PATH, f"{image_name}_segmentation_{i}.png")
+        fpath = os.path.join(ISIC_ARCHIVE_TARGETS_PATH, f"{image_name}_segmentation_{i}.png")
         if not os.path.isfile(fpath):
             download_mask(segmentation["_id"], fpath)
 
@@ -91,11 +115,10 @@ def download_all(image_id, image_name, progress_bar=None):
 
 
 def asynchronous():
-    batch_size = 1000
-    offset = 0
+    image_data = get_all_image_ids()
 
-    image_data = get_image_ids(batch_size, offset)
-    greenlets = [gevent.spawn(download_all, image["_id"], image["name"]) for i, image in enumerate(image_data)]
+    greenlets = [gevent.spawn(download_all, image["_id"], image["name"])
+                 for i, image in enumerate(image_data)]
     gevent.joinall(greenlets)
 
 
