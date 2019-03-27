@@ -4,17 +4,18 @@ gevent.monkey.patch_all()
 
 import os
 import ujson
-import gevent
 
+from gevent.pool import Pool
 from io import BytesIO
 from PIL import Image
 from urllib.request import urlopen, Request
 
+POOL_SIZE = 10
 BASE_URL = "https://isic-archive.com/api/v1"
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-ISIC_ARCHIVE_INPUTS_PATH = os.path.join(BASE_PATH, "data", "isic_archive2", "inputs")
-ISIC_ARCHIVE_TARGETS_PATH = os.path.join(BASE_PATH, "data", "isic_archive2", "targets")
+ISIC_ARCHIVE_INPUTS_PATH = os.path.join(BASE_PATH, "data", "isic_archive", "inputs")
+ISIC_ARCHIVE_TARGETS_PATH = os.path.join(BASE_PATH, "data", "isic_archive", "targets")
 
 if not os.path.exists(ISIC_ARCHIVE_INPUTS_PATH):
     os.makedirs(ISIC_ARCHIVE_INPUTS_PATH)
@@ -40,12 +41,14 @@ def get_all_image_ids():
 
     image_ids = []
     while True:
+        print(f"Getting image IDs - Offset: {offset}")
         batch_image_ids = get_image_ids(batch_size, offset)
         image_ids.extend(batch_image_ids)
         offset += batch_size
 
         if len(batch_image_ids) < 1000:
             break
+        break
 
     return image_ids
 
@@ -117,9 +120,10 @@ def download_all(image_id, image_name, progress_bar=None):
 def asynchronous():
     image_data = get_all_image_ids()
 
-    greenlets = [gevent.spawn(download_all, image["_id"], image["name"])
-                 for i, image in enumerate(image_data)]
-    gevent.joinall(greenlets)
+    print(f"Downloading {len(image_data)} lesion images from ISIC Archive")
+
+    pool = Pool(POOL_SIZE)
+    [pool.spawn(download_all, image["_id"], image["name"]) for i, image in enumerate(image_data)]
 
 
 asynchronous()
