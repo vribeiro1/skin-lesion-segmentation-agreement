@@ -1,1 +1,1 @@
-## Exploring the inter-annotator agreement between ISIC Archive segmentation masks
+# Handling Inter-Annotator Agreement for Automated Skin Lesion Segmentation
