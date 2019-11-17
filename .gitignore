@@ -3,6 +3,7 @@
 .cvpr-env
 .ipynb_checkpoints
 *.ipynb
+__pycache__
 
 workshop_files/*
 !workshop_files/.gitkeep

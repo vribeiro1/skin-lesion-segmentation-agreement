@@ -126,4 +126,5 @@ def asynchronous():
     [pool.spawn(download_all, image["_id"], image["name"]) for i, image in enumerate(image_data)]
 
 
-asynchronous()
+if __name__ == "__main__":
+    asynchronous()

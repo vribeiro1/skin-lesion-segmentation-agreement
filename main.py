@@ -23,11 +23,12 @@ matplotlib.rc("font", **font)
 selem = square(5)
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+WORKSHOP_FILES_PATH = os.path.join(BASE_PATH, "workshop_files")
+
 ISIC_ARCHIVE_INPUTS_PATH = os.path.join(BASE_PATH, "data", "isic_archive", "inputs")
 ISIC_ARCHIVE_TARGETS_PATH = os.path.join(BASE_PATH, "data", "isic_archive", "targets")
 ISIC_2017_TARGETS_PATH = os.path.join(BASE_PATH, "data", "isic2017", "train", "targets")
 ISIC_2018_TARGETS_PATH = os.path.join(BASE_PATH, "data", "isic2018", "train", "targets")
-WORKSHOP_FILES_PATH = os.path.join(BASE_PATH, "workshop_files")
 ISIC_ARCHIVE_KAPPA_SCORES_PATH = os.path.join(WORKSHOP_FILES_PATH, "isic_archive_kappa_scores.csv")
 ISIC_2017_KAPPA_SCORES_PATH = os.path.join(WORKSHOP_FILES_PATH, "isic_2017_kappa_scores.csv")
 ISIC_2018_KAPPA_SCORES_PATH = os.path.join(WORKSHOP_FILES_PATH, "isic_2018_kappa_scores.csv")
