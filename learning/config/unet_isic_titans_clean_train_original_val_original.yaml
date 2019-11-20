@@ -2,8 +2,8 @@ model: unet
 batch_size: 8
 n_epochs: 100
 lr: 0.003
-train_fpath: /workspace/skin/data/train_isic_titans_clean.txt
-val_fpath: /workspace/skin/data/validation_isic_titans_clean.txt
+train_fpath: /workspace/skin-lesion-segmentation-agreement/data/train_isic_titans_clean.txt
+val_fpath: /workspace/skin-lesion-segmentation-agreement/data/validation_isic_titans_clean.txt
 train_conditioning: original
 val_conditioning: original
 multimask: true
