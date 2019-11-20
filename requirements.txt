@@ -3,12 +3,13 @@ gevent
 jupyterlab
 numpy
 matplotlib
-sacred
+sacred==0.7.5
 scikit-image
 scikit-learn
 scipy
 seaborn
 pandas
+pymongo
 Pillow
 PyYAML
 ujson

@@ -25,7 +25,7 @@ from transforms.target import Opening, ConvexHull, BoundingBox
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 ex = Experiment()
-fs_observer = FileStorageObserver(os.path.join(BASE_PATH, "results"))
+fs_observer = FileStorageObserver.create(os.path.join(BASE_PATH, "results"))
 ex.observers.append(fs_observer)
 
 available_conditioning = {
