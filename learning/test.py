@@ -125,3 +125,7 @@ if __name__ == "__main__":
     test_dermofit_path = os.path.join(BASE_PATH, "data", "test_dermofit.txt")
     test_isic_titans_path = os.path.join(BASE_PATH, "data", "test_isic_titans_2000.txt")
     test_ph2_path = os.path.join(BASE_PATH, "data", "test_ph2.txt")
+
+    main("dermofit", test_dermofit_path, args.model_path, args.model, args.save_to, args.conditioning)
+    main("isic_titans", test_isic_titans_path, args.model_path, args.model, args.save_to, args.conditioning)
+    main("ph2", test_ph2_path, args.model_path, args.model, args.save_to, args.conditioning)
