@@ -1,0 +1,10 @@
+model: linknet
+batch_size: 8
+n_epochs: 100
+lr: 0.003
+train_fpath: /workspace/skin-lesion-segmentation-agreement/learning/data/train_isic_titans_clean.txt
+val_fpath: /workspace/skin-lesion-segmentation-agreement/learning/data/validation_isic_titans_clean.txt
+train_conditioning: opening
+val_conditioning: opening
+multimask: true
+patience: 100

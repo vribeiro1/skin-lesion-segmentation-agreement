@@ -3,6 +3,7 @@
 .env
 .ipynb_checkpoints
 *.ipynb
+*.png
 __pycache__
 
 analysis/workshop_files/*
