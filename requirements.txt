@@ -10,7 +10,7 @@ scipy
 seaborn
 pandas
 pymongo
-Pillow
+Pillow==6.2.1
 PyYAML
 ujson
 tensorboardX
