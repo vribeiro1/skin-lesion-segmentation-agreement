@@ -1,12 +1,16 @@
 .idea
 .DS_Store
-.cvpr-env
+.env
 .ipynb_checkpoints
 *.ipynb
+*.png
 __pycache__
 
-workshop_files/*
-!workshop_files/.gitkeep
+analysis/workshop_files/*
+!analysis/workshop_files/.gitkeep
 
-data/*
-!data/.gitkeep
+analysis/data/*
+!analysis/data/.gitkeep
+
+learning/runs
+learning/results

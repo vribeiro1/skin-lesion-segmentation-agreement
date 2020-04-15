@@ -9,6 +9,7 @@ from gevent.pool import Pool
 from io import BytesIO
 from PIL import Image
 from urllib.request import urlopen, Request
+from tqdm import tqdm
 
 POOL_SIZE = 10
 BASE_URL = "https://isic-archive.com/api/v1"
@@ -48,7 +49,6 @@ def get_all_image_ids():
 
         if len(batch_image_ids) < 1000:
             break
-        break
 
     return image_ids
 
@@ -123,7 +123,8 @@ def asynchronous():
     print(f"Downloading {len(image_data)} lesion images from ISIC Archive")
 
     pool = Pool(POOL_SIZE)
-    [pool.spawn(download_all, image["_id"], image["name"]) for i, image in enumerate(image_data)]
+    progress_bar = tqdm(image_data)
+    [pool.spawn(download_all, image["_id"], image["name"], progress_bar) for image in image_data]
 
 
 if __name__ == "__main__":
