@@ -1,4 +1,4 @@
-# Handling Inter-Annotator Agreement for Automated Skin Lesion Segmentation
+# Less is More: Sample Selection and Label Conditioning Improve Skin Lesion Segmentation
 
 <b>Vinicius de Paulo Souza Ribeiro</b><br>
 Department of Computer Engineering and Industrial Automation<br>
