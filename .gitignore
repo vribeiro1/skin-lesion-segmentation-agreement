@@ -5,6 +5,7 @@
 *.ipynb
 *.png
 __pycache__
+.vscode
 
 analysis/workshop_files/*
 !analysis/workshop_files/.gitkeep
