@@ -10,6 +10,7 @@ from skimage.morphology import square
 from torch.utils.data import DataLoader
 from tensorboardX import SummaryWriter
 from torch.optim import Adam
+from torch.optim.lr_scheduler import CyclicLR
 from tqdm import tqdm
 
 from dataset import SkinLesionSegmentationDataset, MultimaskSkinLesionSegmentationDataset
@@ -82,7 +83,7 @@ def run_epoch(phase, epoch, model, dataloader, optimizer, criterion, scheduler=N
                 optimizer.step()
 
                 if scheduler is not None:
-                    scheduler.batch_step()
+                    scheduler.step()
 
             losses.append(loss.item())
             jaccards.append(jaccard.item())
@@ -157,6 +158,7 @@ def main(_run, model, batch_size, n_epochs, lr, multimask, patience,
         model.load_state_dict(state_dict)
 
     optimizer = Adam(model.parameters(), lr=lr)
+    scheduler = CyclicLR(optimizer, base_lr=lr, max_lr=10*lr, cycle_momentum=False)
     loss_fn = SoftJaccardBCEWithLogitsLoss(jaccard_weight=8)
 
     augmentations = [
@@ -207,10 +209,10 @@ def main(_run, model, batch_size, n_epochs, lr, multimask, patience,
     epochs_since_best = 0
 
     for epoch in epochs:
-        info["train"] = run_epoch("train", epoch, model, dataloaders["train"], optimizer, loss_fn, writer=writer)
+        info["train"] = run_epoch("train", epoch, model, dataloaders["train"], optimizer, loss_fn, scheduler, writer)
 
         if run_validation:
-            info["validation"] = run_epoch("validation", epoch, model, dataloaders["validation"], optimizer, loss_fn, writer=writer)
+            info["validation"] = run_epoch("validation", epoch, model, dataloaders["validation"], optimizer, loss_fn, scheduler, writer)
             if info["validation"]["jaccard"] > best_jacc:
                 best_jacc = info["validation"]["jaccard"]
                 torch.save(model.state_dict(), best_model_path)
