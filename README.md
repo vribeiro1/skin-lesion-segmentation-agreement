@@ -16,7 +16,7 @@ This repository contains the code for the following publications:
 
 * <b>Less is More: Sample Selection and Label Conditioning Improve Skin Lesion Segmentation</b><br>
   Vinicius Ribeiro, Sandra Avila, Eduardo Valle<br>
-  2020 [To be published at the ISIC Skin Image Analysis Workshop @ CVPR 2020](https://workshop2020.isic-archive.com/)
+  2020 [ISIC Skin Image Analysis Workshop @ CVPR 2020](http://openaccess.thecvf.com/content_CVPRW_2020/html/w42/Ribeiro_Less_Is_More_Sample_Selection_and_Label_Conditioning_Improve_Skin_CVPRW_2020_paper.html)
   
   The code for this paper is in the branch `master`, under the directory `learning`.
 
